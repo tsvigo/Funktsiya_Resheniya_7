@@ -314,7 +314,7 @@ Dialog::Dialog(QWidget *parent)
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // тут видимо умножать на функцию активации
         //  activationFunction(var)
-   list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
+ //  list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     } // первый for
     //////////////////////
@@ -336,7 +336,7 @@ Dialog::Dialog(QWidget *parent)
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // тут видимо умножать на функцию активации
     //  activationFunction(var)
-   list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
+//   list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //####### конец вычисления 200 нейрона ####################################################################
     /////////////   показываем что определила программа после решения
@@ -379,7 +379,8 @@ void Dialog::on_pushButton_clicked()
         ui->label_2->setText ("Odin_Programmi==false; Odin_Uchitelia=true");
         // cycle_of_distinguishing_a_one_with_vectors_GUI
         QProcess::startDetached(
-            "/home/viktor/my_projects_qt_2_build/build-1_v_2-Desktop-Release/1_v_2"
+            "/home/viktor/my_projects_qt_2_build/build-1_v_3_Widget-Desktop_Qt_6_8_0-Release/1_v_3_Widget"
+         //   "/home/viktor/my_projects_qt_2_build/build-1_v_2-Desktop-Release/1_v_2"
             //   "/home/viktor/my_projects_qt_2_build/build-cycle_of_distinguishing_a_one_with_vectors_GUI_2_uu-Desktop_Qt_5_12_12_GCC_64bit-Release/cycle_of_distinguishing_a_one_with_vectors_GUI_2_uu"
             , qApp->arguments());
         //   qApp->quit();
