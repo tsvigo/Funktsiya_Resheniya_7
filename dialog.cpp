@@ -45,6 +45,55 @@ const std::string FILE_PATH = "/home/viktor/my_projects_qt_2/sgenerirovaty_sinap
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// void readFromFile(std::vector<mpz_class>& list_of_synapses, const std::string& filePath) {
+//     std::ifstream inFile(filePath, std::ios::binary);
+//     if (!inFile) {
+//         qCritical() << "Ошибка открытия файла для чтения";
+//         return;
+//     }
+
+//     for (size_t i = 0; i < NUM_SYNAPSES; ++i) {
+//         size_t size;
+//         inFile.read(reinterpret_cast<char*>(&size), sizeof(size));
+//         std::vector<char> buffer(size);
+//         inFile.read(buffer.data(), size);
+//         list_of_synapses[i].set_str(std::string(buffer.begin(), buffer.end()), 10);
+//     }
+
+//     inFile.close();
+// }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// void readFromFile(std::vector<mpz_class>& list_of_synapses, const std::string& filePath) {
+//     std::ifstream inFile(filePath, std::ios::binary);
+//     if (!inFile) {
+//         qCritical() << "Ошибка открытия файла для чтения";
+//         return;
+//     }
+
+//     // Убедимся, что вектор имеет нужный размер
+//     list_of_synapses.resize(NUM_SYNAPSES);
+
+//     for (size_t i = 0; i < NUM_SYNAPSES; ++i) {
+//         quint32 size;
+//         inFile.read(reinterpret_cast<char*>(&size), sizeof(size));
+//         if (inFile.gcount() != sizeof(size)) {
+//             qCritical() << "Ошибка чтения размера числа из файла";
+//             return;
+//         }
+
+//         std::vector<unsigned char> buffer(size);
+//         inFile.read(reinterpret_cast<char*>(buffer.data()), size);
+//         if (inFile.gcount() != size) {
+//             qCritical() << "Ошибка чтения числа из файла";
+//             return;
+//         }
+
+//         // Импортируем данные в mpz_class
+//         mpz_import(list_of_synapses[i].get_mpz_t(), size, 1, 1, 0, 0, buffer.data());
+//     }
+
+//     inFile.close();
+// }
 void readFromFile(std::vector<mpz_class>& list_of_synapses, const std::string& filePath) {
     std::ifstream inFile(filePath, std::ios::binary);
     if (!inFile) {
@@ -52,17 +101,37 @@ void readFromFile(std::vector<mpz_class>& list_of_synapses, const std::string& f
         return;
     }
 
+    // Убедимся, что вектор имеет нужный размер
+    list_of_synapses.resize(NUM_SYNAPSES);
+
     for (size_t i = 0; i < NUM_SYNAPSES; ++i) {
-        size_t size;
+        quint32 size;
         inFile.read(reinterpret_cast<char*>(&size), sizeof(size));
-        std::vector<char> buffer(size);
-        inFile.read(buffer.data(), size);
-        list_of_synapses[i].set_str(std::string(buffer.begin(), buffer.end()), 10);
+        if (inFile.gcount() != sizeof(size)) {
+            qCritical() << "Ошибка чтения размера числа из файла для элемента" << i;
+            return;
+        }
+
+        if (size == 0) {
+            qCritical() << "Размер числа равен 0 для элемента" << i;
+            return;
+        }
+
+        std::vector<unsigned char> buffer(size);
+        inFile.read(reinterpret_cast<char*>(buffer.data()), size);
+        if (inFile.gcount() != size) {
+            qCritical() << "Ошибка чтения числа из файла для элемента" << i;
+            qCritical() << "Ожидаемый размер:" << size << ", прочитанный размер:" << inFile.gcount();
+            return;
+        }
+
+        // Импортируем данные в mpz_class
+        mpz_import(list_of_synapses[i].get_mpz_t(), size, 1, 1, 0, 0, buffer.data());
     }
 
     inFile.close();
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void printVector(const std::vector<mpz_class>& list_of_synapses) {
     int i=0;
     for (const auto& value : list_of_synapses) {
@@ -245,7 +314,7 @@ Dialog::Dialog(QWidget *parent)
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // тут видимо умножать на функцию активации
         //  activationFunction(var)
-        //    list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
+   list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     } // первый for
     //////////////////////
@@ -267,7 +336,7 @@ Dialog::Dialog(QWidget *parent)
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // тут видимо умножать на функцию активации
     //  activationFunction(var)
-    //     list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
+   list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //####### конец вычисления 200 нейрона ####################################################################
     /////////////   показываем что определила программа после решения
@@ -323,7 +392,8 @@ void Dialog::on_pushButton_clicked()
         QProcess::startDetached(
 
             //  "/home/viktor/my_projects_qt_2_build/build-bez_1_GUI_3_uu-Desktop_Qt_5_12_12_GCC_64bit-Release/bez_1_GUI_3_uu"
-            "/home/viktor/my_projects_qt_2_build/build-bez_1-Desktop-Release/bez_1"
+          //  "/home/viktor/my_projects_qt_2_build/build-bez_1-Desktop-Release/bez_1"
+        "/home/viktor/my_projects_qt_2_build/build-bez_1_GMP-Desktop_Qt_6_8_0-Release/bez_1_GMP"
             , qApp->arguments());
         //          qApp->quit();
     }
