@@ -132,6 +132,24 @@ void readFromFile(std::vector<mpz_class>& list_of_synapses, const std::string& f
     inFile.close();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void readFromFile2(std::vector<mpz_class>& list_of_synapses, const std::string& filePath) {
+    std::ifstream inFile(filePath, std::ios::binary);
+    if (!inFile) {
+        qCritical() << "Ошибка открытия файла для чтения";
+        return;
+    }
+
+    for (size_t i = 0; i < NUM_SYNAPSES; ++i) {
+        size_t size;
+        inFile.read(reinterpret_cast<char*>(&size), sizeof(size));
+        std::vector<char> buffer(size);
+        inFile.read(buffer.data(), size);
+        list_of_synapses[i].set_str(std::string(buffer.begin(), buffer.end()), 10);
+    }
+
+    inFile.close();
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void printVector(const std::vector<mpz_class>& list_of_synapses) {
     int i=0;
     for (const auto& value : list_of_synapses) {
@@ -214,7 +232,7 @@ Dialog::Dialog(QWidget *parent)
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*
 
     //    std::vector<mpz_class> read_synapses(NUM_SYNAPSES);
-    readFromFile(list_of_synapses
+    readFromFile2(list_of_synapses
                  //read_synapses
                  , FILE_PATH);
 
@@ -222,10 +240,10 @@ Dialog::Dialog(QWidget *parent)
     std::cout << "конец чтения синапсов в вектор" << std::endl;
 
     // Вывод значений вектора в консоль
-    // printVector(list_of_synapses
-    //       // read_synapses
-    //                );
-    //   printVector(list_of_synapses);
+    printVector(list_of_synapses
+          // read_synapses
+                   );
+      printVector(list_of_synapses);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     std::cout << "//"
                  "#################################################################################"
