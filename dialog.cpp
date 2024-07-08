@@ -299,6 +299,7 @@ Dialog::Dialog(QWidget *parent)
          var < 200; //200;
          ++var)     // This is the range of neurons
     {
+        bool increase = true; // Флаг для чередования увеличения и уменьшения
         //    if (list_of_neurons->at(200)<0) break;
         for (neuron_index = 0, synapse_index = 0;  // второй for
 
@@ -313,14 +314,20 @@ Dialog::Dialog(QWidget *parent)
 
             try
             {
-                list_of_neurons.at(var)
-                    //###########################################################################
-                    = list_of_neurons.at(var) //-5310911  // valgrind
-                      + ((list_of_neurons.at(neuron_index)
-                          //  /   // деление
-                          -                                     // вычитаем
-                          list_of_synapses.at(synapse_index))); // + на -
+                // list_of_neurons.at(var)
+                //                         = list_of_neurons.at(var)
+                //       + ((list_of_neurons.at(neuron_index)
 
+                //           -                                     // вычитаем
+                //           list_of_synapses.at(synapse_index)));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
+                if (increase) {
+                    list_of_neurons.at(var) += delta;
+                } else {
+                    list_of_neurons.at(var) -= delta;
+                }
+                increase = !increase; // Чередование флага
 
             }
             catch (const std::out_of_range &e)
@@ -339,16 +346,24 @@ Dialog::Dialog(QWidget *parent)
     for (int neuron_index = 100, synapse_index = 10000; // второй for
 
          synapse_index < 10100;
-         ++neuron_index, ++synapse_index) {
-        //      if (list_of_synapses->at(synapse_index)!=0)
-        list_of_neurons.at(200)
-            //###########################################################################
-            = list_of_neurons.at(200) //-5310911
-              + ((list_of_neurons.at(neuron_index)
-                  //  / // деление
-                  -                                     // вычитание
-                  list_of_synapses.at(synapse_index))); // + на -
+         ++neuron_index, ++synapse_index)
+    {
 
+        bool increase = true; // Флаг для чередования увеличения и уменьшения
+
+              // list_of_neurons.at(200)
+              //     = list_of_neurons.at(200)
+              // + ((list_of_neurons.at(neuron_index)
+              //                    -                                     // вычитание
+              //     list_of_synapses.at(synapse_index)));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
+              if (increase) {
+                  list_of_neurons.at(200) += delta;
+              } else {
+                  list_of_neurons.at(200) -= delta;
+              }
+              increase = !increase; // Чередование флага
 
     } // for
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
