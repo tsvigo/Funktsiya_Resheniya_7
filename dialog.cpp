@@ -186,10 +186,22 @@ mpz_class activationFunction( // long long list_of_neurons.at(var)
     return (  list_of_neurons.at(var));
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NOTE: activationFunction_Bent_identity
 mpz_class activationFunction_Bent_identity( // long long list_of_neurons.at(var)
     int var
     )
 {
+    mpz_t n, root;
+ unsigned long int k = 2; // степень корня
+        mpz_root(root, n, k); // n - из чего извлекаем корень
+ // Использование функции mpz_set для присваивания
+ //mpz_t another;
+// mpz_init(list_of_neurons.at(var));
+// mpz_set(another, root); // Правильное присваивание
+ //  void mpz_powm (mpz_t rop, const mpz_t base, const mpz_t exp, const mpz_t mod)
+
+ n=(list_of_neurons.at(var) * list_of_neurons.at(var))+1;
+
     list_of_neurons.at(var) =(list_of_neurons.at(var) * list_of_neurons.at(var))+1
     return (  list_of_neurons.at(var));
 }
