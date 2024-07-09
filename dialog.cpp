@@ -191,19 +191,51 @@ mpz_class activationFunction_Bent_identity( // long long list_of_neurons.at(var)
     int var
     )
 {
-    mpz_t n, root;
- unsigned long int k = 2; // степень корня
-        mpz_root(root, n, k); // n - из чего извлекаем корень
- // Использование функции mpz_set для присваивания
- //mpz_t another;
-// mpz_init(list_of_neurons.at(var));
-// mpz_set(another, root); // Правильное присваивание
- //  void mpz_powm (mpz_t rop, const mpz_t base, const mpz_t exp, const mpz_t mod)
+//     mpz_t n, root;
+//  unsigned long int k = 2; // степень корня
+//         mpz_root(root, n, k); // n - из чего извлекаем корень
+//  // Использование функции mpz_set для присваивания
+//  //mpz_t another;
+// // mpz_init(list_of_neurons.at(var));
+// // mpz_set(another, root); // Правильное присваивание
+//  //  void mpz_powm (mpz_t rop, const mpz_t base, const mpz_t exp, const mpz_t mod)
 
- n=(list_of_neurons.at(var) * list_of_neurons.at(var))+1;
+//  n=(list_of_neurons.at(var) * list_of_neurons.at(var))+1;
 
-    list_of_neurons.at(var) =(list_of_neurons.at(var) * list_of_neurons.at(var))+1
-    return (  list_of_neurons.at(var));
+//     list_of_neurons.at(var) =(list_of_neurons.at(var) * list_of_neurons.at(var))+1
+   return (  list_of_neurons.at(var));
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NOTE: bent_identity_activation объявление
+mpz_class bent_identity_activation(size_t var) {
+    if (var >= list_of_neurons.size()) {
+        throw std::out_of_range("Index out of range");
+    }
+
+    mpz_class x = list_of_neurons.at(var);
+    mpz_class x_squared, one, sqrt_value, num, den, result_value;
+
+    // x^2
+    mpz_mul(x_squared.get_mpz_t(), x.get_mpz_t(), x.get_mpz_t());
+
+    // x^2 + 1
+    one = 1;
+    mpz_add(x_squared.get_mpz_t(), x_squared.get_mpz_t(), one.get_mpz_t());
+
+    // sqrt(x^2 + 1)
+    mpz_sqrt(sqrt_value.get_mpz_t(), x_squared.get_mpz_t());
+
+    // sqrt(x^2 + 1) - 1
+    mpz_sub(sqrt_value.get_mpz_t(), sqrt_value.get_mpz_t(), one.get_mpz_t());
+
+    // (sqrt(x^2 + 1) - 1) / 2
+    den = 2;
+    mpz_fdiv_q(num.get_mpz_t(), sqrt_value.get_mpz_t(), den.get_mpz_t());
+
+    // (sqrt(x^2 + 1) - 1) / 2 + x
+    mpz_add(result_value.get_mpz_t(), num.get_mpz_t(), x.get_mpz_t());
+
+    return result_value;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -362,6 +394,9 @@ Dialog::Dialog(QWidget *parent)
         //  activationFunction(var)
  //list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
         // NOTE опрЕДЕЛЕНИЕ ФУНКЦИИ АКТИВАЦИИ 1
+        // Вычисление активации "Bent identity"
+      //  std::vector<mpz_class> activated_neurons = bent_identity_activation(list_of_neurons);
+        list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     } // первый for
     //////////////////////
@@ -388,11 +423,13 @@ Dialog::Dialog(QWidget *parent)
               increase = !increase; // Чередование флага
 
     } // for
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // тут видимо умножать на функцию активации
     //  activationFunction(var)
 // list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // NOTE: определение функции активации 2
+         list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //####### конец вычисления 200 нейрона ####################################################################
     /////////////   показываем что определила программа после решения
     // Почему же решение меняет 200 нейрон?
