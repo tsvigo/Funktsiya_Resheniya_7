@@ -392,7 +392,7 @@ Dialog::Dialog(QWidget *parent)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // тут видимо умножать на функцию активации
         //  activationFunction(var)
- list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
+// list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
         // NOTE опрЕДЕЛЕНИЕ ФУНКЦИИ АКТИВАЦИИ 1
         // Вычисление активации "Bent identity"
       //  std::vector<mpz_class> activated_neurons = bent_identity_activation(list_of_neurons);
@@ -426,7 +426,7 @@ Dialog::Dialog(QWidget *parent)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // тут видимо умножать на функцию активации
     //  activationFunction(var)
- list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
+// list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
     // NOTE: определение функции активации 2
     //     list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
