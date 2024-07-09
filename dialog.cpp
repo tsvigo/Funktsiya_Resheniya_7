@@ -367,20 +367,20 @@ Dialog::Dialog(QWidget *parent)
 
             try
             {
-                // list_of_neurons.at(var)
-                //                         = list_of_neurons.at(var)
-                //       + ((list_of_neurons.at(neuron_index)
+                 list_of_neurons.at(var)
+                                       = list_of_neurons.at(var)
+                   + ((list_of_neurons.at(neuron_index)
 
-                //           -                                     // вычитаем
-                //           list_of_synapses.at(synapse_index)));
+                        -                                     // вычитаем
+                        list_of_synapses.at(synapse_index)));
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
-                if (increase) {
-                    list_of_neurons.at(var) += delta;
-                } else {
-                    list_of_neurons.at(var) -= delta;
-                }
-                increase = !increase; // Чередование флага
+                // mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
+                // if (increase) {
+                //     list_of_neurons.at(var) += delta;
+                // } else {
+                //     list_of_neurons.at(var) -= delta;
+                // }
+                // increase = !increase; // Чередование флага
 
             }
             catch (const std::out_of_range &e)
@@ -392,11 +392,11 @@ Dialog::Dialog(QWidget *parent)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // тут видимо умножать на функцию активации
         //  activationFunction(var)
- //list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
+ list_of_neurons.at(var)=list_of_neurons.at(var)*activationFunction(var);
         // NOTE опрЕДЕЛЕНИЕ ФУНКЦИИ АКТИВАЦИИ 1
         // Вычисление активации "Bent identity"
       //  std::vector<mpz_class> activated_neurons = bent_identity_activation(list_of_neurons);
-        list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
+      //  list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     } // первый for
     //////////////////////
@@ -406,29 +406,29 @@ Dialog::Dialog(QWidget *parent)
          ++neuron_index, ++synapse_index)
     {
 
-        bool increase = true; // Флаг для чередования увеличения и уменьшения
+      //  bool increase = true; // Флаг для чередования увеличения и уменьшения
 
-              // list_of_neurons.at(200)
-              //     = list_of_neurons.at(200)
-              // + ((list_of_neurons.at(neuron_index)
-              //                    -                                     // вычитание
-              //     list_of_synapses.at(synapse_index)));
+              list_of_neurons.at(200)
+                  = list_of_neurons.at(200)
+              + ((list_of_neurons.at(neuron_index)
+                                 -                                     // вычитание
+                  list_of_synapses.at(synapse_index)));
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-              mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
+/*              mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
               if (increase) {
                   list_of_neurons.at(200) += delta;
               } else {
                   list_of_neurons.at(200) -= delta;
               }
-              increase = !increase; // Чередование флага
+              increase = !increase; */// Чередование флага
 
     } // for
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // тут видимо умножать на функцию активации
     //  activationFunction(var)
-// list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
+ list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
     // NOTE: определение функции активации 2
-         list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
+    //     list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //####### конец вычисления 200 нейрона ####################################################################
     /////////////   показываем что определила программа после решения
