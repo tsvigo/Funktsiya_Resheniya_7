@@ -42,6 +42,38 @@ const std::string FILE_PATH = "/home/viktor/my_projects_qt_2/sgenerirovaty_sinap
 ///////////////////////////
 /////////////////// NOTE: функции: //////////////////////////////////////////////////////////////////
 // сигмоида
+mpz_class sigmoid_activation_function(int var) {
+    mpz_class base = 3;
+    mpz_class exponentiated_value;
+
+    // Проверка, что значение не отрицательное
+    if (list_of_neurons.at(var) < 0) {
+        throw std::runtime_error("Negative exponent not supported.");
+    }
+
+    // Проверка, что значение не слишком большое
+    if (list_of_neurons.at(var) > 1000) { // Example threshold
+        throw std::runtime_error("Exponent too large, may cause overflow.");
+    }
+
+    // Step 1: Compute 3^list_of_neurons[var]
+    mpz_pow_ui(exponentiated_value.get_mpz_t(), base.get_mpz_t(), list_of_neurons.at(var).get_ui());
+
+    // Step 2: Compute 1 + 3^list_of_neurons[var]
+    mpz_class denominator = 1 + exponentiated_value;
+
+    // Step 3: Compute the inverse 1 / (1 + 3^list_of_neurons[var])
+    mpz_class numerator = 1;
+    mpz_class result;
+
+    // We will compute the result as numerator / denominator
+    mpz_tdiv_q(result.get_mpz_t(), numerator.get_mpz_t(), denominator.get_mpz_t());
+
+    // Step 4: Update the list_of_neurons with the computed result
+    list_of_neurons[var] = result;
+
+    return list_of_neurons.at(var);
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -410,7 +442,9 @@ Dialog::Dialog(QWidget *parent)
         // NOTE опрЕДЕЛЕНИЕ ФУНКЦИИ АКТИВАЦИИ 1
         // Вычисление активации "Bent identity"
       //  std::vector<mpz_class> activated_neurons = bent_identity_activation(list_of_neurons);
-     list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
+   //  list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+list_of_neurons.at(var)=sigmoid_activation_function( var)  ;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
      //   list_of_neurons.at(var)=quadraticActivation (var);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -444,7 +478,9 @@ Dialog::Dialog(QWidget *parent)
     //  activationFunction(var)
 // list_of_neurons.at(200)=list_of_neurons.at(200)*activationFunction(200);
     // NOTE: определение функции активации 2
-      list_of_neurons.at(200)=list_of_neurons.at(200)*bent_identity_activation(200);
+//      list_of_neurons.at(200)=list_of_neurons.at(200)*bent_identity_activation(200);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+list_of_neurons.at(200)=sigmoid_activation_function( 200)  ;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  //   list_of_neurons.at(200)=quadraticActivation (200);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
