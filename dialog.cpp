@@ -350,7 +350,9 @@ Dialog::Dialog(QWidget *parent)
     readFromFile2(list_of_synapses
                  //read_synapses
                  , FILE_PATH);
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   // readFromFile(list_of_synapses, FILE_PATH);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     qDebug() << "Размер list_of_synapses:" << list_of_synapses.size();
     std::cout << "конец чтения синапсов в вектор" << std::endl;
 
@@ -416,7 +418,7 @@ Dialog::Dialog(QWidget *parent)
          var < 200; //200;
          ++var)     // This is the range of neurons
     {
-        bool increase = true; // Флаг для чередования увеличения и уменьшения
+   //     bool increase = true; // Флаг для чередования увеличения и уменьшения
         //    if (list_of_neurons->at(200)<0) break;
         for (neuron_index = 0, synapse_index = 0;  // второй for
 
