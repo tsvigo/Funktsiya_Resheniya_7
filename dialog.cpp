@@ -41,6 +41,56 @@ const std::string FILE_PATH = "/home/viktor/my_projects_qt_2/sgenerirovaty_sinap
 //###########################################################################
 ///////////////////////////
 /////////////////// NOTE: функции: //////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void writeVectorToFile(const std::vector<mpz_class>& vec, const std::string& filename) {
+    FILE* outFile = fopen(filename.c_str(), "wb");
+    if (!outFile) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return;
+    }
+
+    for (const auto& num : vec) {
+        mpz_out_raw(outFile, num.get_mpz_t());
+    }
+
+    fclose(outFile);
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+std::vector<mpz_class> readVectorFromFile(const std::string& filename) {
+   // std::vector<mpz_class> vec;
+  // std::vector<mpz_class> list_of_synapses;
+    // list_of_synapses
+    FILE* inFile = fopen(filename.c_str(), "rb");
+    if (!inFile) {
+        std::cerr << "Error opening file for reading." << std::endl;
+        return list_of_synapses;
+    }
+
+    while (!feof(inFile)) {
+        mpz_class num;
+        if (mpz_inp_raw(num.get_mpz_t(), inFile) == 0) {
+            break; // EOF or error
+        }
+        list_of_synapses.push_back(num);
+    }
+
+    fclose(inFile);
+    return list_of_synapses;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool vectorsAreEqual(const std::vector<mpz_class>& vec1, const std::vector<mpz_class>& vec2) {
+    if (vec1.size() != vec2.size()) {
+        return false;
+    }
+    for (size_t i = 0; i < vec1.size(); ++i) {
+        if (vec1[i] != vec2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // arctg
 mpz_class arctgActivation(int var) {
     // Преобразуем значение в mpf_class для вычисления арктангенса
@@ -347,9 +397,11 @@ Dialog::Dialog(QWidget *parent)
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*
 
     //    std::vector<mpz_class> read_synapses(NUM_SYNAPSES);
-    readFromFile2(list_of_synapses
-                 //read_synapses
-                 , FILE_PATH);
+    // readFromFile2(list_of_synapses
+    //              //read_synapses
+    //              , FILE_PATH);
+   // NOTE: readVectorFromFile опреДЕЛЕНИЕ
+    readVectorFromFile(FILE_PATH);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    // readFromFile(list_of_synapses, FILE_PATH);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
