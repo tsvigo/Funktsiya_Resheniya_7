@@ -41,6 +41,24 @@ const std::string FILE_PATH = "/home/viktor/my_projects_qt_2/sgenerirovaty_sinap
 //###########################################################################
 ///////////////////////////
 /////////////////// NOTE: функции: //////////////////////////////////////////////////////////////////
+// arctg
+mpz_class arctgActivation(int var) {
+    // Преобразуем значение в mpf_class для вычисления арктангенса
+    mpf_class value_f(list_of_neurons.at(var));
+
+    // Вычисляем арктангенс
+    mpf_class arctg_value = atan(value_f.get_d());
+
+    // Преобразуем обратно в mpz_class (здесь может потребоваться округление)
+    mpz_class result(arctg_value);
+
+    // Обновляем значение в векторе
+    list_of_neurons[var] = result;
+
+    return list_of_neurons.at(var);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // сигмоида
 mpz_class sigmoid_activation_function(int var) {
     mpz_class base = 3;
@@ -444,7 +462,7 @@ Dialog::Dialog(QWidget *parent)
       //  std::vector<mpz_class> activated_neurons = bent_identity_activation(list_of_neurons);
    //  list_of_neurons.at(var)=list_of_neurons.at(var)*bent_identity_activation(var);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-list_of_neurons.at(var)=sigmoid_activation_function( var)  ;
+list_of_neurons.at(var)=arctgActivation( var)  ;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
      //   list_of_neurons.at(var)=quadraticActivation (var);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -480,7 +498,7 @@ list_of_neurons.at(var)=sigmoid_activation_function( var)  ;
     // NOTE: определение функции активации 2
 //      list_of_neurons.at(200)=list_of_neurons.at(200)*bent_identity_activation(200);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-list_of_neurons.at(200)=sigmoid_activation_function( 200)  ;
+list_of_neurons.at(200)=arctgActivation( 200)  ;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  //   list_of_neurons.at(200)=quadraticActivation (200);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
