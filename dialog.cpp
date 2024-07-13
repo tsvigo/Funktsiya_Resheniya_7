@@ -35,12 +35,35 @@ std::vector<mpz_class> list_of_neurons(NUM_NEYRONS);
 std::vector<mpz_class> list_of_synapses(NUM_SYNAPSES);
 //const mpz_class MAX_VALUE("18446744073709551615");
 const std::string FILE_PATH = "/home/viktor/my_projects_qt_2/sgenerirovaty_sinapsi/random_sinapsi.bin";
+ QString logFilePath =
+    "/home/viktor/my_projects_qt_2_build/build-Funktsiya_Resheniya_7-Desktop_Qt_6_8_0-Debug/application.log";
 //##################################################################
 
 
 //###########################################################################
 ///////////////////////////
 /////////////////// NOTE: функции: //////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ // перенаправляем вывод из консоли в лог файл
+void redirectOutputToFile2(const QString &filePath) {
+    // Открываем файл для записи и очищаем его содержимое
+    FILE *file = freopen(filePath.toStdString().c_str(), "w", stdout);
+    if (!file) {
+        std::cerr << "Failed to redirect stdout to file" << std::endl;
+        return;
+    }
+
+    // Перенаправляем stderr тоже, если нужно
+    file = freopen(filePath.toStdString().c_str(), "w", stderr);
+    if (!file) {
+        std::cerr << "Failed to redirect stderr to file" << std::endl;
+        return;
+    }
+
+    std::cout << "Console output is now redirected to the log file." << std::endl;
+    std::cerr << "Error output is also redirected to the log file." << std::endl;
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void writeVectorToFile(const std::vector<mpz_class>& vec, const std::string& filename) {
     FILE* outFile = fopen(filename.c_str(), "wb");
@@ -393,6 +416,11 @@ Dialog::Dialog(QWidget *parent)
     //########################################################################################################
     std::cout << "Funktsiya_Resheniya_7" << std::endl;
     //########################################################################################################
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// logFilePath
+    redirectOutputToFile2(logFilePath);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // читаем синапсы из файла в вектор
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*
 
