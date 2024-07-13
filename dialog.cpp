@@ -31,8 +31,10 @@ int neuron_index = 0, synapse_index = 0;
 constexpr size_t NUM_SYNAPSES = 10105;
 
 constexpr size_t NUM_NEYRONS = 205 ;
-std::vector<mpz_class> list_of_neurons(NUM_NEYRONS);
-std::vector<mpz_class> list_of_synapses(NUM_SYNAPSES);
+std::vector<mpz_class> list_of_neurons(0//NUM_NEYRONS
+                                       );
+std::vector<mpz_class> list_of_synapses(0//NUM_SYNAPSES
+                                        );
 //const mpz_class MAX_VALUE("18446744073709551615");
 const std::string FILE_PATH = "/home/viktor/my_projects_qt_2/sgenerirovaty_sinapsi/random_sinapsi.bin";
  QString logFilePath =
@@ -81,12 +83,12 @@ void writeVectorToFile(const std::vector<mpz_class>& vec, const std::string& fil
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::vector<mpz_class> readVectorFromFile(const std::string& filename) {
    // std::vector<mpz_class> vec;
-  // std::vector<mpz_class> list_of_synapses;
+ //  std::vector<mpz_class> list_of_synapses;
     // list_of_synapses
     FILE* inFile = fopen(filename.c_str(), "rb");
     if (!inFile) {
         std::cerr << "Error opening file for reading." << std::endl;
-        return list_of_synapses;
+     //   return list_of_synapses;
     }
 
     while (!feof(inFile)) {
@@ -418,7 +420,7 @@ Dialog::Dialog(QWidget *parent)
     //########################################################################################################
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // logFilePath
-    redirectOutputToFile2(logFilePath);
+  //  redirectOutputToFile2(logFilePath);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // читаем синапсы из файла в вектор
@@ -440,7 +442,7 @@ Dialog::Dialog(QWidget *parent)
     printVector(list_of_synapses
           // read_synapses
                    );
-      printVector(list_of_synapses);
+     // printVector(list_of_synapses);
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     std::cout << "//"
                  "#################################################################################"
