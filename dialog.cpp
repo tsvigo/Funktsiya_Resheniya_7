@@ -557,7 +557,14 @@ Dialog::Dialog(QWidget *parent)
 
      qDebug() << "list_of_neurons.at("<<var<<")=list_of_neurons.at("<<var<<")+ ((list_of_neurons.at("
                           << neuron_index<<")-list_of_synapses.at("<<synapse_index<<")";
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ // qDebug() << list_of_neurons.at(var)<<"="<<list_of_neurons.at(var)<<"+"<< list_of_neurons.at(neuron_index)<<"-"<<list_of_synapses.at(synapse_index);
+ qDebug() <<  QString::fromStdString(list_of_neurons.at(var).get_str())
+     <<"="<< QString::fromStdString(list_of_neurons.at(var).get_str())<<"+"<<
+         QString::fromStdString( list_of_neurons.at(neuron_index).get_str())<<"-"<<
+       QString::fromStdString( list_of_synapses.at(synapse_index).get_str())
+      ;
+  // QString::fromStdString(list_of_neurons.at(index).get_str());
+     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
                 // if (increase) {
                 //     list_of_neurons.at(var) += delta;
@@ -601,6 +608,16 @@ list_of_neurons.at(var)=arctgActivation( var)  ;
               + ((list_of_neurons.at(neuron_index)
                                  -                                     // вычитание
                   list_of_synapses.at(synapse_index)));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              // NOTE: выведем все результаты
+
+              qDebug() << "list_of_neurons.at("<<200<<")=list_of_neurons.at("<<200<<")+ ((list_of_neurons.at("
+                       << neuron_index<<")-list_of_synapses.at("<<synapse_index<<")";
+                           qDebug() <<  QString::fromStdString(list_of_neurons.at(200).get_str())
+                       <<"="<< QString::fromStdString(list_of_neurons.at(200).get_str())<<"+"<<
+                  QString::fromStdString( list_of_neurons.at(neuron_index).get_str())<<"-"<<
+                  QString::fromStdString( list_of_synapses.at(synapse_index).get_str())
+                  ;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*              mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
               if (increase) {
