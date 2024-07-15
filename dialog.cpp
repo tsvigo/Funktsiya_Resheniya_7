@@ -46,7 +46,36 @@ const std::string FILE_PATH = "/home/viktor/my_projects_qt_2/sgenerirovaty_sinap
 ///////////////////////////
 /////////////////// NOTE: функции: //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+     static QFile logFile("/home/viktor/my_projects_qt_2/Funktsiya_Resheniya_7/application.log");
+     if (!logFile.isOpen()) {
+         logFile.open(QIODevice::Append | QIODevice::Text);
+     }
+     QTextStream out(&logFile);
+     QString timeStamp = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
+
+     switch (type) {
+     case QtDebugMsg:
+         out << timeStamp << " [DEBUG] " << msg << "\n";
+         break;
+     case QtInfoMsg:
+         out << timeStamp << " [INFO] " << msg << "\n";
+         break;
+     case QtWarningMsg:
+         out << timeStamp << " [WARNING] " << msg << "\n";
+         break;
+     case QtCriticalMsg:
+         out << timeStamp << " [CRITICAL] " << msg << "\n";
+         break;
+     case QtFatalMsg:
+         out << timeStamp << " [FATAL] " << msg << "\n";
+         abort();
+     }
+     out.flush();
+ }
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  // перенаправляем вывод из консоли в лог файл
 void redirectOutputToFile2(const QString &filePath) {
     // Открываем файл для записи и очищаем его содержимое
@@ -413,6 +442,8 @@ Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialog)
 {
+    // Регистрация пользовательского обработчика сообщений
+    qInstallMessageHandler(customMessageHandler);
     ui->setupUi(this);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //########################################################################################################
@@ -521,6 +552,11 @@ Dialog::Dialog(QWidget *parent)
 
                         -                                     // вычитаем
                         list_of_synapses.at(synapse_index)));
+
+   // NOTE: выведем все результаты
+
+     qDebug() << "list_of_neurons.at("<<var<<")=list_of_neurons.at("<<var<<")+ ((list_of_neurons.at("
+                          << neuron_index<<")-list_of_synapses.at("<<synapse_index<<")";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // mpz_class delta = list_of_neurons.at(neuron_index) - list_of_synapses.at(synapse_index);
                 // if (increase) {
