@@ -483,7 +483,7 @@ Dialog::Dialog(QWidget *parent)
     //////////////////// считали синапсы в вектор //////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // читаем нейроны в вектор
-
+ // NOTE: Диалог выбора файла нейронов
     // Вызов диалога выбора файла
     QString fileName_neyroni = QFileDialog::getOpenFileName(nullptr, "Выберите файл",
                                                             //"/home/viktor/1_rukoy/"
@@ -493,6 +493,8 @@ Dialog::Dialog(QWidget *parent)
     // Проверка, был ли файл выбран
     if (!fileName_neyroni.isEmpty()) {
         qDebug() << "Выбранный файл:" << fileName_neyroni;
+        // fileName_neyroni
+         std::cout << "Выбранный файл:" << fileName_neyroni.toStdString() << std::endl;
     } else {
         qDebug() << "Файл не был выбран.";
     }
